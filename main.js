@@ -1,10 +1,15 @@
 (function (window, undefined) {
     "use strict";
 
-    var host = "http://localhost:5000/";
+    let host = "http://23.22.137.193:5000/";
+    //let host = "http://localhost:5000/";
+
+    fetch_classes(2174, "cs");
+    //let table = build_table(mock);
 
     function fetch_classes(term, code)
     {
+        let num = 0;
 
         console.log("Fetching courses...");
         fetch(host + "courses/" + term + "/" + code)
@@ -29,13 +34,33 @@
                 }))
                 .then((response) => {
                     console.log("Done!");
+                    let table = build_table(response);
                 });
             });
     }
 
+    function build_table(data)
+    {
+        let table = {};
 
-    //var CLASS_DATA = fetch_classes(2174, "cs");
-    var CLASS_DATA = mock;
+        data.filter((cl) => {
+            if(cl.time[0] == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }).forEach((cl) => {
+            cl.time[0] = format_time(cl.time[0]);
+            cl.time[1] = format_time(cl.time[1]);
+
+            table[cl.class_number] = cl;
+        });
+
+        return table;
+    }
 
     function format_time(time)
     {
@@ -49,25 +74,4 @@
         return time_minutes;
     }
 
-    var CLASS_TABLE = {};
-    CLASS_DATA.filter((cl) => {
-        if(cl.time[0] == "")
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }).forEach((cl) => {
-        cl.time[0] = format_time(cl.time[0]);
-        cl.time[1] = format_time(cl.time[1]);
-
-        CLASS_TABLE[cl.class_number] = cl;
-    });
-
-    console.log(CLASS_TABLE);
-
-
 })(typeof window !== "undefined" ? window : {});
-
