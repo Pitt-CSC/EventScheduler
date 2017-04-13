@@ -1,11 +1,11 @@
 (function (window, undefined) {
     "use strict";
 
-    //let host = "http://23.22.137.193:5000/";
+    let host = "http://23.22.137.193:5000/";
     //let host = "http://localhost:5000/";
 
-    //fetch_classes(2174, "cs");
-    let table = build_table(mock);
+    fetch_classes(2174, "cs");
+    //let table = build_table(mock);
 
     function fetch_classes(term, code)
     {
